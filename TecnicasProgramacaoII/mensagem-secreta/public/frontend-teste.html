@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criptografia</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        input, button { margin: 10px; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Teste de Criptografia</h1>
+    <input type="text" id="texto" placeholder="Digite o texto">
+    <input type="number" id="passos" placeholder="Passos">
+    <button onclick="criptografar()">Criptografar</button>
+    <h2>Resultado:</h2>
+    <p id="resultado"></p>
+
+    <script>
+        async function criptografar() {
+            const texto = document.getElementById("texto").value;
+            const passos = parseInt(document.getElementById("passos").value);
+            
+            if (!texto || isNaN(passos)) {
+                alert("Preencha todos os campos corretamente!");
+                return;
+            }
+            
+            const response = await fetch("http://localhost:3000/criptografar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ texto, passos })
+            });
+            
+            const data = await response.json();
+            document.getElementById("resultado").textContent = data.resultado || data.erro;
+        }
+    </script>
+</body>
+</html>
